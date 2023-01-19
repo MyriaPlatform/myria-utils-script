@@ -1,18 +1,6 @@
-# myria-campaign-service
+# Myria Utils Script
 
-REST-based Web Services for Campaign features
-
-## Prerequisites
-
-The following tools need to be installed:
-
-- [Git](http://git-scm.com/)
-- [Node.js 14+](http://nodejs.org/)
-- [Docker](https://www.docker.com/get-started/)
-- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
-- [NestJS Framework](https://github.com/nestjs/nest)
-- [DBeaver Community - Free Universal Database Tool](https://dbeaver.io/download/)
-- [Prisma is a modern DB toolkit to query, migrate and model your database](https://prisma.io)
+Script Utils for Myria
 
 ## Installation
 
@@ -22,7 +10,58 @@ cd <repository-url>
 npm install
 ```
 
-## Configure environment variables
+### Setup scripts.
+Setup the the configuration based 
+There are multiple config environment json file that we can use based on the desire env.
+
+`DEV` and `STAGING` are all internal Myria environments.
+`PRODUCTION` are using for both of Internal and External (Partner)
+
+#### Distribute ERC-721 tokens
+
+#### Step 1:
+
+```
+  "tokenAddressERC721": "Contract address of your collections",
+  "senderStarkPrivateKey": "Private stark key for your L2 account",
+  "senderStarkPublicKey": "Normal public stark key for your L2 wallet address"
+```
++ Token address : Smart contract address for your deployed collection in the Myria system
++ To get the stark public key, you can refer on the documentation[https://docs.myria.com/]
++ To get the senderStarkPrivateKey, just simply make one random transaction (listing/purchase) for whatever NFTs, and we can inspect the browser to get the value on the console 
+`[generateStarkSignature] privateStarkKeyInternal -> abcdef......
+
+#### Step 2:
+Fulfilled the csv files which are placed on `public/storages/production/transfer_erc721_example.csv`
+The CSV format file includes two column: `tokenId,receiverWalletAddress`
++ TokenID: identifier of the token NFT which have been minted
++ receiverWalletAddress: The user's wallet address to receive the NFTs
+
+Due to the limitation for batch in Myria system, it's highly recommend that we have maximum 20 rows per csv file to make the transfer process better and avoid unexpected failing.
+
+You can also have multiple CSV files with different name to manage the list of users received token.
+And simply look up into the path `src/scripts/transfer_erc721_example.script.ts`
+And adjust the name on the `line 39`:
++ From `${this.filePath}/${configService.env}/transfer-erc721.csv`
++ To `${this.filePath}/${configService.env}/transfer-erc721_example_whatever_name.csv`
+
+#### Step 3:
+
+Trigger the scripts by command to transfer NFTs token.
+It is highly recommend that we should test on the staging environment and operate the same steps to avoid any mismatch or error prone. As long as the configuration setup fine on the staging, we can go ahead with the production.
+
+Run command:
++ Distribute tokens on the staging env:
+
+```
+     yarn transfer:erc721:stg
+```
+
++ Distribute tokens on the production env:
+
+```
+     yarn transfer:erc721:prod
+```
 
 ### Supported environments
 
@@ -30,6 +69,8 @@ npm install
 - Dev
 - Staging
 - Production
+
+
 
 ### Update values inside the `configs/.config.$ENVIRONMENT.json`
 
@@ -51,74 +92,6 @@ cp .example.env .env
 # Then update the value for variable in the .env if needed
 ```
 
-## Running the app on a specific environment
-
-### Docker container
-
-```bash
-# start docker container
-$ npm run docker:start:$env
-```
-
-### Local machine
-
-```bash
-# A PostgreSQL instance must ready for connection on host port 5432
-## start docker container docker if it does not exist
-$ npm run docker:start:db
-
-# start local server
-$ npm run start:$env
-```
-
-## How to migrate your data
-
-```bash
-# Create migration file `Always keep the file there`
-## Create the list file of migration with timestamps
-## Filename is the module/table need to migrate
-### Generate script base on the changes from prisma/schema.prisma file
-#### Filename will be generated as: `timestamp_filename/migrate/migrate.sql`
-
-#### RUN FOR DEVELOPMENT MODE only
-npx prisma migrate dev --create-only
-
-# Run this command before running `Run migration`
-## On your local environment
-export IS_LOCAL_MACHINE=true
-## Other environments
-export IS_LOCAL_MACHINE=false
-
-# Run migration
-## Execute all of command for migration for both init database and update changes
-## If the migration file name is already executed, then the scripts automatically ignore migration
-npx prisma migrate deploy
-
-# Generate prisma client to interact with DB
-npx prisma generate
-
-# Seed your data: support on development only
-NODE_ENV=development npx prisma db seed
-```
-
-## Test
-
-```bash
-# unit test for all modules
-$ npm run test:integration
-
-# run unit test for each module: npm run test:integration:$module
-$ npm run test:integration:project
-
-# test coverage
-$ npm run test:cov
-```
-
-## Health Check
-
-```bash
-curl http://localhost:8090
-```
 
 ## Source Structure
 
@@ -156,35 +129,4 @@ Each module structure
 ├── user.controller.spec.ts # contain test code(unit test, integration test)
 ├── user.controller.ts # controller interacts service with the current request
 └── user.module.ts # mapping controller, services, repositories ...etc
-```
-
-## Collaboration
-
-1. Follow TypeScript Style Guide [Google](https://google.github.io/styleguide/tsguide.html) except filename use dashes and dots as NestJS is following angular e.g `project-create-action.service`
-2. Follow [REST Resource Naming Guide](https://restfulapi.net/resource-naming/)
-3. Follow Best-Practices in coding:
-   - [Clean code](https://github.com/labs42io/clean-code-typescript) make team happy
-   - [Return early](https://szymonkrajewski.pl/why-should-you-return-early/) make code safer and use resource Efficiency
-   - [Truthy & Falsy](https://frontend.turing.edu/lessons/module-1/js-truthy-falsy-expressions.html) make code shorter
-   - [SOLID Principles](https://javascript.plainenglish.io/solid-principles-with-type-script-d0f9a0589ec5) make clean code
-   - [DRY & KISS](https://dzone.com/articles/software-design-principles-dry-and-kiss) avoid redundancy and make your code as simple as possible
-4. Naming git's branch to link with JIRA ticket `TICKET_NUMBER-description`
-5. Make buildable commit and pull latest code from `dev` branch frequently. Enable rebase when pull `$ git config --local pull.rebase true`
-6. Use readable commit message [karma](http://karma-runner.github.io/6.3/dev/git-commit-msg.html)
-
-```bash
-     /‾‾‾‾‾‾‾‾
-🔔  <  Ring! Please use semantic commit messages
-     \________
-
-
-<type>(<scope>): ([issue number]) <subject>
-    │      │        |             │
-    |      |        |             └─> subject in present tense. Not capitalized. No period at the end.
-    |      |        |
-    │      │        └─> Issue number (optional): Jira Ticket or Issue number
-    │      │
-    │      └─> Scope (optional): eg. Articles, Profile, Core
-    │
-    └─> Type: chore, docs, feat, fix, refactor, style, ci, perf, build, or test.
 ```
