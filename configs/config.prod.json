@@ -1,0 +1,22 @@
+{
+  "apiVersion": "v1",
+  "apiSemanticVersion": "v1.2.0",
+  "region": "us-east-1",
+  "myriaCoreServiceApiKey": "TBU",
+  "myriaMarketplaceServiceApiKey": "TBU",
+  "environment": "production",
+  "myriaCoreServiceUrl": "https://myriacore-api.myria.com",
+  "myriaMarketplaceServiceUrl": "https://myriacore-marketp-api.myria.com",
+  "port": "8090",
+  "pgEnableTypeOrmLog": "false",
+  "isIntegrationTest": "false",
+  "isEnableExternalError": "true",
+  "newrelicLicenseKey": "",
+  "timeoutResponse": "90000",
+  "serverStatus": "AVAILABLE",
+  "whitelistedApiKeys": "placeholder(Injected via pipeline)",
+  "tokenAddressERC20": "TBU",
+  "tokenAddressERC721": "TBU",
+  "senderStarkPrivateKey": "TBU",
+  "senderStarkPublicKey": "TBU"
+}

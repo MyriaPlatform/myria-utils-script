@@ -1,0 +1,13 @@
+const SECONDS = 5;
+export const REDIS_CACHE_10_SECONDS = 10;
+export const REDIS_CACHE_15_SECONDS = 15;
+export const REDIS_CACHE_1_MINS = 60;
+export const REDIS_CACHE_5_MINS = 5 * REDIS_CACHE_1_MINS;
+export const REDIS_CACHE_15_MINS = 30 * SECONDS;
+export const REDIS_CACHE_30_MINS = 60 * SECONDS;
+export const REDIS_CACHE_1_HOURS = 120 * SECONDS;
+export const REDIS_CACHE_1_DAY = 120 * SECONDS * 24;
+export const REDIS_CACHE_7_DAYS = 7 * REDIS_CACHE_1_DAY;
+export const REDIS_CACHE_15_DAYS = 15 * REDIS_CACHE_1_DAY;
+export const REDIS_CACHE_1_MONTH = 30 * REDIS_CACHE_1_DAY;
+export const REDIS_CACHE_NEVER_EXPIRED = 0;

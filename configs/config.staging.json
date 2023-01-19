@@ -1,0 +1,21 @@
+{
+  "apiVersion": "v1",
+  "apiSemanticVersion": "v1.2.0",
+  "region": "us-east-1",
+  "myriaCoreServiceApiKey": "1631578f65f1f5493c889ec3fae9115f30e2175f966371d5dab4738063a980e6",
+  "myriaMarketplaceServiceApiKey": "4d2f50617f1f7bc23a06762284534a671a4300929fe7cc1b86359a27e522f35f",
+  "environment": "staging",
+  "myriaCoreServiceUrl": "https://staging.myriacore-api.nonprod-myria.com",
+  "myriaMarketplaceServiceUrl": "https://staging.myriacore-marketp-api.nonprod-myria.com",
+  "port": "8090",
+  "isIntegrationTest": "false",
+  "isEnableExternalError": "true",
+  "newrelicLicenseKey": "placeholder(Injected via pipeline)",
+  "timeoutResponse": "90000",
+  "serverStatus": "AVAILABLE",
+  "whitelistedApiKeys": "placeholder(Injected via pipeline)",
+  "tokenAddressERC20": "0xa06116d9e28af403d6989c45ef8c0b9b971e5e12",
+  "tokenAddressERC721": "0xcaa6f194ed7d335d1f17d841d40518bac24595e3",
+  "senderStarkPrivateKey": "5e8bb91a83e938fd890b7fb1b930067bdc731935b2148613f727ff71ab1d7ed",
+  "senderStarkPublicKey": "0x61b721a3f7b04524dc8919840b83094e080ad41de44caee78ccc36b61b07fea"
+}
